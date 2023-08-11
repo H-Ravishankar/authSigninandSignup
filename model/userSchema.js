@@ -33,6 +33,7 @@ const userScehma = new Schema({
     timestamps:true
 });
 
+
 userScehma.methods = {
     jwtToken() {
         return JWT.sign(
