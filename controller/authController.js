@@ -103,7 +103,50 @@ const signin = async(req,res)=> {
     
 
 }
+
+const getUser = async(req,res,next)=>{
+
+    const userId = req.user.id 
+    try{
+       const user = await userModel.findById(userId)
+       return res.status(200).json({
+        success:true,
+        data:user
+       }) 
+
+    }catch(e){
+       return res.status(400).json({
+            success:false,
+            message:e.message
+           }) 
+    }
+
+}
+
+const logOut = (req,res)=>{
+    const cookieOption = {
+        expires: new Date(),
+        httpOnly:true
+    }
+
+    try{
+        res.cookie("token",null,cookieOption);
+        res.status(200).json({
+            success:true,
+            message:"Logged Out"
+        })
+    }catch(e){
+        return res.status(400).json({
+            success:false,
+            message:e.message
+           }) 
+
+    }
+
+}
 module.exports = {
     signup,
-    signin
+    signin,
+    getUser,
+    logOut
 }
